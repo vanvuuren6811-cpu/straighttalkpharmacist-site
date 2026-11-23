@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Straight Talk Pharmacist | Free Traffic Light Medicine Checker</title>
+<meta name="description" content="Can you take turmeric with a blood thinner, or ibuprofen with blood pressure tablets? Check 1,100 common medicine mixes in seconds with pharmacist Leon Van Vuuren's free traffic-light checker.">
+<link rel="canonical" href="https://straighttalkpharmacist.com/">
+<meta property="og:title" content="Can I take this with my medicines? Free Traffic Light Checker">
+<meta property="og:description" content="Check 1,100 common medicine mixes as RED, AMBER or GREEN. By pharmacist Leon Van Vuuren.">
+<meta property="og:image" content="https://straighttalkpharmacist.com/share.jpg">
+<meta property="og:url" content="https://straighttalkpharmacist.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='9' y='1' width='14' height='30' rx='5' fill='%231f2326'/%3E%3Ccircle cx='16' cy='8' r='4' fill='%23d7261e'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23f0a500'/%3E%3Ccircle cx='16' cy='24' r='4' fill='%231f9d55'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Atkinson+Hyperlegible+Next:wght@500;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday health tool for older readers: calm, clear, large
+   IDEA a pharmacy counter traffic light plus a dispensing label
+   PICTURE a real three-lamp traffic light that lights the strictest colour, with the answer on a label beside it
+   COLOUR white counter, charcoal housing, signal red, amber and green as the only strong colours
+   TYPE Atkinson Hyperlegible Next for headings, Atkinson Hyperlegible for text
+   LAYOUT laptop: controls left, light and label right; phone: title, light and answer, then controls */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#121416);--ink:light-dark(#16191c,#eef1f3);--soft:light-dark(#5a6168,#a6aeb5);--line:light-dark(#d9dee2,#2e3439);--panel:light-dark(#f4f6f7,#1b1f22);--house:#1f2326;--red:#d7261e;--amb:#f0a500;--grn:#1f9d55;--redt:light-dark(#fde8e6,#3a1714);--ambt:light-dark(#fff3d6,#3a2c0c);--grnt:light-dark(#e3f5ea,#10301e)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.55 "Atkinson Hyperlegible",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,sans-serif;letter-spacing:-.02em;line-height:1.08;margin:0}
+.band{padding:clamp(20px,3vw,40px) max(4vw,16px)}
+.wrap{max-width:1180px;margin:0 auto}
+header.band{border-bottom:1px solid var(--line);padding-block:18px}
+.brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.brand b{font-family:"Atkinson Hyperlegible Next",sans-serif;font-weight:800;font-size:18px}
+.brand span{color:var(--soft);font-size:15px}
+.top h1{font-size:clamp(32px,4.4vw,48px);font-weight:800;text-wrap:balance;max-width:20ch}
+.top p{color:var(--soft);margin:10px 0 0;max-width:62ch}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);margin-top:24px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.step{font-weight:700;font-size:19px;margin:0 0 4px;font-family:"Atkinson Hyperlegible Next",sans-serif}
+.hint{color:var(--soft);font-size:15px;margin:0 0 12px}
+input[type=search]{width:100%;font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);min-height:48px}
+input[type=search]:focus,button:focus-visible,label:focus-within{outline:3px solid #2b6cb0;outline-offset:2px}
+.meds{display:grid;gap:4px;max-height:360px;overflow:auto;margin-top:10px;padding-right:4px}
+.cat{font-size:14px;font-weight:700;color:var(--soft);margin:10px 0 2px}
+.med{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:10px;cursor:pointer;border:2px solid transparent;background:var(--bg)}
+.med input{width:22px;height:22px;margin:2px 0 0;accent-color:#16191c;flex:none}
+.med small{display:block;color:var(--soft);font-size:14px}
+.med.on{border-color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:15px;cursor:pointer;min-height:36px}
+.prods{display:grid;gap:4px;max-height:300px;overflow:auto;margin-top:10px}
+.prod{text-align:left;font:inherit;font-size:16px;padding:11px 12px;border-radius:10px;border:2px solid transparent;background:var(--bg);color:var(--ink);cursor:pointer;min-height:46px}
+.prod.on{border-color:var(--ink);font-weight:700}
+.prod:hover,.med:hover{border-color:var(--line)}
+.panel+.panel{margin-top:16px}
+.result{position:sticky;top:16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:start}
+.light{background:var(--house);border-radius:28px;padding:16px 14px;display:grid;gap:12px;box-shadow:inset 0 -6px 0 #14171a, 0 10px 0 -4px color-mix(in srgb,var(--house) 30%,transparent)}
+.lamp{width:clamp(64px,8vw,92px);aspect-ratio:1;border-radius:50%;background:#2c3236;box-shadow:inset 0 6px 10px #0006;transition:background .35s,box-shadow .35s}
+.lamp.r.lit{background:radial-gradient(circle at 40% 35%,#ff8a80,var(--red) 60%);box-shadow:0 0 28px var(--red)}
+.lamp.a.lit{background:radial-gradient(circle at 40% 35%,#ffe08a,var(--amb) 60%);box-shadow:0 0 28px var(--amb)}
+.lamp.g.lit{background:radial-gradient(circle at 40% 35%,#8be0ad,var(--grn) 60%);box-shadow:0 0 28px var(--grn)}
+.label{border:2px solid var(--ink);border-radius:12px;overflow:hidden;background:var(--bg)}
+.verdict{padding:16px 18px;color:#fff}
+.verdict.R{background:var(--red)}.verdict.A{background:var(--amb);color:#16191c}.verdict.G{background:var(--grn)}.verdict.N{background:var(--panel);color:var(--ink)}
+.verdict h2{font-size:clamp(30px,3.6vw,40px);font-weight:800}
+.verdict p{margin:6px 0 0;font-size:17px}
+.rows{padding:6px 18px 14px}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.dot{width:16px;height:16px;border-radius:50%;margin-top:4px}
+.dot.R{background:var(--red)}.dot.A{background:var(--amb)}.dot.G{background:var(--grn)}
+.row b{display:block}
+.row span{color:var(--soft);font-size:15.5px}
+.tag{font-size:13px;font-weight:700;padding:1px 8px;border-radius:999px;margin-left:6px;white-space:nowrap}
+.tag.R{background:var(--redt);color:light-dark(#9b1610,#ff9a92)}.tag.A{background:var(--ambt);color:light-dark(#7a5300,#ffd27a)}.tag.G{background:var(--grnt);color:light-dark(#11663a,#86e0aa)}
+.more{padding:14px 18px;border-top:2px solid var(--ink);display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;font-size:15.5px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border-radius:10px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:700}
+.note{font-size:14px;color:var(--soft);margin:10px 0 0}
+footer.band{background:var(--house);color:#e9edf0;margin-top:40px}
+footer h3{font-size:22px;margin-bottom:10px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(15em,1fr));gap:24px}
+footer a{color:#fff}
+footer p,footer li{font-size:15.5px;color:#c7cdd2}
+footer ul{padding-left:18px;margin:6px 0}
+.nums b{color:#fff;white-space:nowrap}
+@media(max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}.result{position:static;order:-1}}
+@media(max-width:480px){.result{grid-template-columns:minmax(0,1fr)}.light{grid-auto-flow:column;justify-content:center;border-radius:999px;padding:10px 16px}.lamp{width:52px}}
+@media(prefers-reduced-motion:reduce){.lamp{transition:none}}
+
+nav.site{display:flex;gap:6px 18px;flex-wrap:wrap}
+nav.site a{color:var(--ink);text-decoration:none;font-weight:700;font-size:16px;padding:6px 2px;border-bottom:2px solid transparent}
+nav.site a:hover{border-color:var(--grn)}
+.sec{border-top:1px solid var(--line)}
+.sec h2{font-size:clamp(28px,3.4vw,40px);font-weight:800;margin-bottom:12px}
+.lead{color:var(--soft);max-width:64ch;margin:0 0 18px}
+.book{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:center}
+.book img{width:100%;height:auto;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.22)}
+.book ul{padding-left:20px;margin:10px 0 18px}
+.book li{margin:4px 0}
+.cta{display:inline-block;background:var(--grn);color:#fff;font-weight:700;text-decoration:none;padding:12px 20px;border-radius:10px}
+.cta.soon{background:var(--house)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{font-size:22px;margin-bottom:6px}
+.card p{color:var(--soft);margin:0 0 14px}
+.card a{font-weight:700;color:var(--grn)}
+.about{max-width:70ch}
+@media (max-width:700px){.book{grid-template-columns:1fr}.book img{max-width:220px}}
+</style>
+</head>
+<body>
+<header class="band"><div class="wrap brand"><b>Straight Talk Pharmacist</b><nav class="site" aria-label="Main"><a href="#checker">Checker</a><a href="#book">The book</a><a href="#videos">Videos</a><a href="#about">About</a></nav></div></header>
+<main><section class="band" id="checker"><div class="wrap">
+<section class="top">
+<h1>Can I take this with my medicines?</h1>
+<p>Tick the prescription medicines you take, then choose the product you want to use. The light shows the strictest colour across all your medicines.</p>
+</section>
+<div class="grid">
+<div>
+<section class="panel">
+<p class="step">1. Your prescription medicines</p>
+<p class="hint">Find the name on your box or pharmacy label. Tick all that apply.</p>
+<input type="search" id="medq" placeholder="Search, e.g. amlodipine" aria-label="Search your medicines">
+<div class="meds" id="meds"></div>
+<div class="chips" id="picked"></div>
+</section>
+<section class="panel">
+<p class="step">2. The product you want to take</p>
+<p class="hint">Painkillers, cold remedies, vitamins, herbs, supplements, foods and drinks.</p>
+<input type="search" id="prodq" placeholder="Search, e.g. turmeric" aria-label="Search products">
+<div class="prods" id="prods"></div>
+</section>
+</div>
+<aside class="result" aria-live="polite">
+<div class="light" aria-hidden="true"><div class="lamp r" id="lr"></div><div class="lamp a" id="la"></div><div class="lamp g" id="lg"></div></div>
+<div>
+<div class="label" id="label"></div>
+<p class="note" id="ex"></p>
+</div>
+</aside>
+</div>
+</div></section>
+<section class="band sec" id="book"><div class="wrap book">
+<img src="book-cover.jpg" width="600" height="960" alt="Cover of The Traffic Light Medicine Cabinet by Leon Van Vuuren" loading="lazy">
+<div>
+<h2>The Traffic Light Medicine Cabinet</h2>
+<p class="lead">A pharmacist's plain-language guide to safely mixing supplements, herbs and over-the-counter medicines with your prescriptions.</p>
+<ul>
+<li>1,100 common combinations rated RED, AMBER or GREEN</li>
+<li>20 prescription medicine groups and 55 everyday products</li>
+<li>A 30-minute medicine cabinet check, with worksheets</li>
+<li>What to say to your doctor and pharmacist</li>
+</ul>
+<span class="cta soon">Coming soon on Amazon</span>
+</div>
+</div></section>
+<section class="band sec" id="videos"><div class="wrap">
+<h2>Watch on YouTube</h2>
+<p class="lead">Short, plain-English videos from a working pharmacist.</p>
+<div class="cards">
+<div class="card"><h3>Straight Talk Pharmacist</h3><p>Medicine mixes, side effects and the questions people ask at the pharmacy counter.</p><a href="https://www.youtube.com/results?search_query=Straight+Talk+Pharmacist">Visit the channel →</a></div>
+<div class="card"><h3>Vital Code</h3><p>Health explained simply: how your body and your medicines work.</p><a href="https://www.youtube.com/@VitalCode6811">Visit the channel →</a></div>
+</div>
+</div></section>
+<section class="band sec" id="about"><div class="wrap"><div class="about">
+<h2>About Leon</h2>
+<p>Leon Van Vuuren is a South African pharmacist. For years, the question he heard most across the counter was "Can I take this with my tablets?" This checker and his books give you clear, calm answers, so you can talk to your own doctor and pharmacist with confidence.</p>
+<p class="hint">Privacy: this site uses no tracking and no sign-up. Your ticked medicines are saved only in your own browser.</p>
+</div></div></section>
+</main>
+<footer class="band"><div class="wrap cols">
+<div>
+<h3>Important</h3>
+<p>This checker is general information, not medical advice. It covers 20 common prescription groups and 55 everyday products at usual doses, and can't take account of your kidneys, liver, other conditions or exact doses. <b style="color:#fff">Never stop a prescribed medicine because of a colour here.</b> Ask your doctor or pharmacist.</p>
+</div>
+<div class="nums">
+<h3>Emergency numbers</h3>
+<ul>
+<li>South Africa: ambulance <b>10177</b>, cell phone <b>112</b>, Poison Information Helpline <b>0861 555 777</b></li>
+<li>United States: <b>911</b>, Poison Control <b>1-800-222-1222</b></li>
+<li>United Kingdom: <b>999</b>, NHS <b>111</b></li>
+</ul>
+</div>
+<div>
+<h3>From the pharmacist</h3>
+<p>Ratings come from <i>The Traffic Light Medicine Cabinet</i> by pharmacist Leon Van Vuuren.</p>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Straight+Talk+Pharmacist">Straight Talk Pharmacist on YouTube</a></li>
+<li><a href="https://www.youtube.com/@VitalCode6811">Vital Code on YouTube</a></li>
+</ul>
+</div>
+</div></footer>
+<script>
+{
+const D={"g":[["ACE inhibitors & ARBs","Blood pressure","enalapril, lisinopril, perindopril, ramipril, losartan, candesartan, valsartan, irbesartan",5],["Thiazide water tablets","Blood pressure","hydrochlorothiazide, indapamide",5],["Calcium channel blockers","Blood pressure","amlodipine, nifedipine, felodipine, lercanidipine",5],["Warfarin","Blood thinners","warfarin",6],["Apixaban or rivaroxaban","Blood thinners","apixaban, rivaroxaban",6],["Clopidogrel","Blood thinners","clopidogrel",6],["Simvastatin","Cholesterol","simvastatin",7],["Atorvastatin","Cholesterol","atorvastatin",7],["Rosuvastatin","Cholesterol","rosuvastatin",7],["Metformin","Diabetes","metformin",8],["Gliclazide or insulin","Diabetes","gliclazide, insulin",8],["Digoxin","Heart","digoxin",9],["Amiodarone","Heart","amiodarone",9],["Furosemide","Heart","furosemide",9],["Spironolactone","Heart","spironolactone",9],["Levothyroxine","Thyroid","levothyroxine",10],["SSRI antidepressants","Mood & sleep","sertraline, citalopram, escitalopram, fluoxetine",11],["Prescribed sleep & anxiety tablets","Mood & sleep","zolpidem, zopiclone, lorazepam, diazepam",11],["Prescribed stomach-acid tablets","Stomach & bones","omeprazole, pantoprazole",12],["Bone tablets","Stomach & bones","alendronate, risedronate",12]],"p":[["5-HTP","Table 19.8"],["Activated charcoal","Table 16.1"],["Alcohol","Table 21.2"],["Alcohol-based tinctures (herbal and homeopathic, marked \"\u00d8\")","Table 20.2"],["Antacids (calcium, magnesium, aluminium)","Table 16.2"],["Ashwagandha","Table 18.9"],["Aspirin (OTC, painkilling doses)","Table 13.3"],["Berberine","Table 18.7"],["Biotin (high dose)","Table 17.9"],["Calcium","Table 17.2"],["CBD oil","Table 19.2"],["Chromium","Table 19.7"],["Cinnamon supplements","Table 18.12"],["Coenzyme Q10","Table 19.5"],["Coffee and caffeine","Table 21.3"],["Cranberry juice and supplements","Table 19.6"],["Decongestants (pseudoephedrine, phenylephrine)","Table 14.1"],["Dextromethorphan cough syrup","Table 14.2"],["Echinacea","Tables 14.4 and 18.16"],["Fish oil / omega-3","Table 19.3"],["Garlic supplements","Table 18.13"],["Ginkgo","Table 18.11"],["Ginseng","Table 18.10"],["Glucosamine (and chondroitin)","Table 19.4"],["Grapefruit and grapefruit juice","Table 21.1"],["Green tea extract (high-dose supplements)","Table 18.8"],["Hawthorn","Table 18.5"],["Homeopathic remedies (general)","Table 20.1"],["Ibuprofen and other anti-inflammatories","Table 13.2"],["Iron","Table 17.3"],["Licorice root","Table 18.2"],["Loperamide","Table 16.5"],["Magnesium","Table 17.4"],["Melatonin","Table 15.3"],["Milk thistle","Table 18.15"],["Niacin (vitamin B3, high dose)","Table 17.8"],["Non-sedating antihistamines (loratadine, cetirizine)","Table 15.2"],["Omeprazole / esomeprazole (bought over the counter)","Chapter 12"],["Paracetamol","Table 13.1"],["Potassium (including salt substitutes)","Table 17.5"],["Psyllium / ispaghula husk (fibre)","Table 16.4"],["Red yeast rice","Table 18.4"],["SAMe","Table 19.10"],["Sedating antihistamines (diphenhydramine, promethazine)","Table 15.1"],["St John's wort","Table 18.3"],["Steroid nasal sprays (fluticasone, beclometasone)","Table 14.4"],["Stimulant laxatives (senna, bisacodyl)","Table 16.3"],["Tryptophan","Table 19.9"],["Turmeric / curcumin","Table 18.14"],["Valerian","Tables 15.4 and 18.6"],["Vitamin B12","Table 17.6"],["Vitamin D","Table 17.6"],["Vitamin E (high-dose supplements)","Table 17.7"],["Vitamin K","Table 17.1"],["Zinc (including cold lozenges)","Table 14.3"]],"m":"GGGGGGGGGGGGGGGGRAGGAAARRRAAAAARRAAAAAAAAAAAAAAAAAAAAAAGARGGAAAAAAAAAAAAAAAAAAAAGGGGGGGGAGGAGGGAGGGAAAAGGGGGGGAGGGGAAAGGGGGRRRGGGGGAAAAGAGGAAAAAAAAAGAAAAGGGGGGGGGGGGGGGGGGAAAAAGGGGGAGGGGGGGGGGGGGAGGAAAAARAAAAGGGAAGGGAAGGGGGGGGGGGAAGGGGAGGGGGGGAAAGGGAAGGGGGGGGGGGGAGGGGGGGGGGGGGGGGGGGGGGGGGGGAAAAAGAGAGGGAGGGGGGGGGGGGGGGAAAAGGGGGGGGRRRRGGGGGGGGGGGGGGGGGGGGGAAGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGGGGGGGGGGGGGGGAAAGGGGGGGGGGGGGGGGGAAAGGGGGGGGGGAGAGAAAAGGGGGGAAGGGGGGGGGGGAGGGGGGGGGGGGGGGGGGAGAARAGGGGRGGGGGGAAGGAGGAAAGGAAAAGGAGAAAAAAAGGGGGRAAAGGGGGGGGGGGGGGGGGGGGGGGGGAAARRRGGGAARARRGAGGAGGGGGGGGGGGGGGGAGGAARRRAGGGGGGGRRRRGAGGGGGGGGGGGGGGGAGGGGGGGGGGGGGGGGGGGGGGAGGGAGGAAGGGGGAAGGGGGAAGGGGGGGGGGGAAGGGGGGGGGAAAGGGAAAAAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGRGGGGGAAAGAAGAGGGGAGGGGGGGGGGGGGGGGRGGGGGGGGGGGGGRGGGGGGGGGGGGGGGGAGGGAGGGAGGGAGGRRRGGGAGGGGGGGGGGGGGGGGGGGGGGGRGGGGGGGGGGGGGGGAGGGARGGGGARRAAAGGARRGGARAAGGGGGGGGGGGGGGGGGGGGGAAGAGGGGGAAAAAGGGGGGGGGGGGGGGGGGGGGGRAGGGGGAAAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGARGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGGGGGGGGGGGGGGGRGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGAGGGA","l":{"0,16":"Never combine with an SSRI.","0,17":"Ask first; don't combine at bedtime.","1,0":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,1":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,2":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,3":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,4":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,5":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,6":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,7":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,8":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,9":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,10":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,11":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,12":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,13":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,14":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,15":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,16":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,17":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,18":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","1,19":"Don't use activated charcoal while on regular medicines without asking your pharmacist first.","2,0":"Keep within guidelines, stand up slowly after drinking, and avoid binge drinking.","2,1":"Keep within guidelines, stand up slowly after drinking, and avoid binge drinking.","2,2":"Keep within guidelines, stand up slowly after drinking, and avoid binge drinking.","2,3":"Keep to small amounts within guidelines; avoid binge drinking.","2,4":"Keep to small amounts within guidelines; avoid binge drinking.","2,5":"Keep to small amounts within guidelines; avoid binge drinking.","2,6":"Keep within guidelines. Tell your doctor if you drink heavily.","2,7":"Keep within guidelines. Tell your doctor if you drink heavily.","2,8":"Keep within guidelines. Tell your doctor if you drink heavily.","2,9":"Keep within guidelines and avoid binge drinking.","2,10":"Keep within guidelines, never drink on an empty stomach, and check your sugar before bed after drinking.","2,11":"Keep to small amounts or avoid; ask your doctor what's safe for you.","2,12":"Keep to small amounts or avoid; ask your doctor what's safe for you.","2,13":"Keep to small amounts or avoid; ask your doctor what's safe for you.","2,14":"Keep to small amounts or avoid; ask your doctor what's safe for you.","2,16":"Best avoided or kept to small amounts; don't drink and drive.","2,17":"Don't drink alcohol on the nights you take a sleep tablet.","3,0":"Check which herb is in it and look up that herb's row.","3,1":"Check which herb is in it and look up that herb's row.","3,2":"Check which herb is in it and look up that herb's row.","3,3":"Check which herb is in it and look up that herb's row.","3,4":"Check which herb is in it and look up that herb's row.","3,5":"Check which herb is in it and look up that herb's row.","3,6":"Check which herb is in it and look up that herb's row.","3,7":"Check which herb is in it and look up that herb's row.","3,8":"Check which herb is in it and look up that herb's row.","3,9":"Check which herb is in it and look up that herb's row.","3,10":"Check which herb is in it and look up that herb's row.","3,11":"Check which herb is in it and look up that herb's row; ask your pharmacist.","3,12":"Check which herb is in it and look up that herb's row; ask your pharmacist.","3,13":"Check which herb is in it and look up that herb's row; ask your pharmacist.","3,14":"Check which herb is in it and look up that herb's row; ask your pharmacist.","3,15":"Check which herb is in it and look up that herb's row.","3,16":"Check which herb is in it and look up that herb's row.","3,17":"Check the herb and alcohol content; avoid at bedtime with your sleep tablet.","3,18":"Check which herb is in it and look up that herb's row.","3,19":"Check which herb is in it and look up that herb's row; take it well apart from the bone tablet.","4,8":"Take the antacid at least 2 hours after your statin.","4,11":"On digoxin: take antacids at least 2 hours apart from your digoxin dose.","4,15":"Take levothyroxine on an empty stomach and keep antacids at least 4 hours apart.","4,19":"Take your bone tablet first thing with plain water; wait at least 30 minutes (alendronate) before any antacid.","5,0":"Ask first; check your blood pressure if you start it.","5,1":"Ask first; check your blood pressure if you start it.","5,2":"Ask first; check your blood pressure if you start it.","5,10":"Ask first; check your blood sugar more often if you take it.","5,15":"Avoid unless your doctor agrees and monitors your thyroid blood tests.","5,16":"Ask your doctor or pharmacist before combining.","5,17":"Avoid combining at bedtime unless your doctor agrees.","6,3":"Don't take OTC aspirin unless your doctor has prescribed it alongside your blood thinner.","6,4":"Don't take OTC aspirin unless your doctor has prescribed it alongside your blood thinner.","6,5":"Don't take OTC aspirin unless your doctor has prescribed it alongside your blood thinner.","6,11":"Don't use OTC aspirin as a painkiller; only take it if prescribed.","6,12":"Don't use OTC aspirin as a painkiller; only take it if prescribed.","6,13":"Don't use OTC aspirin as a painkiller; only take it if prescribed.","6,14":"Don't use OTC aspirin as a painkiller; only take it if prescribed.","6,16":"Only take aspirin if prescribed; tell your doctor you're on an antidepressant.","6,19":"Only use if prescribed; prefer paracetamol for pain.","7,0":"Ask first; check your blood pressure if you take it.","7,1":"Ask first; check your blood pressure if you take it.","7,2":"Ask first; check your blood pressure more often if you take it.","7,3":"Avoid unless your doctor agrees.","7,4":"Avoid unless your doctor agrees.","7,5":"Avoid unless your doctor agrees.","7,6":"Ask first; report any muscle pain.","7,7":"Ask first; report any muscle pain.","7,9":"Ask first; check your blood sugar.","7,10":"Ask first; check your blood sugar more often.","7,11":"Avoid unless your doctor agrees.","7,12":"Avoid unless your doctor agrees.","8,11":"Tell the lab or your doctor if you take biotin; ask whether to stop it a few days before tests.","8,12":"Tell the lab or your doctor if you take biotin; ask whether to stop it a few days before tests.","8,13":"Tell the lab or your doctor if you take biotin; ask whether to stop it a few days before tests.","8,14":"Tell the lab or your doctor if you take biotin; ask whether to stop it a few days before tests.","8,15":"Tell your doctor; stop biotin for a few days before thyroid blood tests if advised.","9,1":"Keep to normal doses and ask before taking high-dose calcium.","9,15":"Keep calcium at least 4 hours apart from levothyroxine.","9,18":"On a PPI, choose calcium citrate, or take calcium carbonate with food.","9,19":"Take calcium at a different time of day, at least 30 minutes after alendronate (risedronate: follow its label, often 2 hours).","10,0":"Ask first; check your blood pressure if you start it.","10,1":"Ask first; check your blood pressure if you start it.","10,2":"Ask first; check your blood pressure if you start it.","10,3":"Avoid unless your clinic agrees and checks your INR.","10,4":"Ask first.","10,5":"Ask first.","10,6":"Ask first; report any muscle pain.","10,7":"Ask first; report any muscle pain.","10,11":"Ask first.","10,12":"Ask first.","10,16":"Ask first.","10,17":"Ask first; don't combine at bedtime.","11,9":"Check your blood sugar more often if you take it.","11,10":"Check your blood sugar more often if you take it.","11,15":"Keep chromium at least 4 hours apart from levothyroxine.","12,3":"Avoid high-dose supplements; cooking amounts are fine.","12,4":"Avoid high-dose supplements; cooking amounts are fine.","12,5":"Avoid high-dose supplements; cooking amounts are fine.","12,9":"Check your blood sugar more often if you take a supplement.","12,10":"Check your blood sugar more often if you take a supplement.","13,3":"On warfarin, ask first and tell your clinic if you start or stop it.","14,11":"Keep to small amounts if you notice palpitations.","14,12":"Keep to small amounts if you notice palpitations.","14,13":"Keep to small amounts if you notice palpitations.","14,14":"Keep to small amounts if you notice palpitations.","14,15":"Take your tablet with water and wait 30\u201360 minutes before coffee.","14,17":"Avoid coffee after lunchtime.","14,19":"Take the bone tablet with plain water only; wait before coffee as the label says.","15,3":"Avoid concentrated cranberry supplements and large daily amounts of juice (an occasional small glass is fine).","15,19":"Take your bone tablet with plain water only and wait before drinking juice.","16,0":"Avoid if your blood pressure is high or poorly controlled.","16,1":"Avoid if your blood pressure is high or poorly controlled.","16,2":"Avoid if your blood pressure is high or poorly controlled.","16,11":"Avoid. Use saline spray or steam, and ask your pharmacist for a decongestant-free product.","16,12":"Avoid. Use saline spray or steam, and ask your pharmacist for a decongestant-free product.","16,13":"Avoid. Use saline spray or steam, and ask your pharmacist for a decongestant-free product.","16,14":"Avoid. Use saline spray or steam, and ask your pharmacist for a decongestant-free product.","17,16":"Avoid, or use only at the normal dose for a few days after asking your pharmacist.","17,17":"Use only at normal doses, not at bedtime together with your sleep tablet, and ask your pharmacist.","19,3":"Usual doses are generally fine; tell your doctor you take it.","19,4":"Usual doses are generally fine; tell your doctor you take it.","19,5":"Usual doses are generally fine; tell your doctor you take it.","20,3":"Avoid high-dose supplements unless your doctor agrees.","20,4":"Avoid high-dose supplements unless your doctor agrees.","20,5":"Avoid high-dose supplements unless your doctor agrees.","21,3":"Avoid unless your doctor agrees.","21,4":"Avoid unless your doctor agrees.","21,5":"Avoid unless your doctor agrees.","21,16":"Ask first; avoid if you also take a blood thinner or anti-inflammatory.","21,18":"Ask first; tell your doctor if symptoms return.","22,0":"Ask first. If you take it, check your blood pressure more often for the first few weeks.","22,1":"Ask first. If you take it, check your blood pressure more often for the first few weeks.","22,2":"Ask first. If you take it, check your blood pressure more often for the first few weeks.","22,3":"Avoid unless your clinic is monitoring your INR.","22,10":"Ask first. If you take it, check your blood sugar more often, especially at the start.","22,11":"Avoid on digoxin unless your doctor agrees.","23,3":"Avoid unless your clinic agrees and checks your INR.","24,2":"Avoid large or daily amounts of grapefruit or its juice.","24,4":"Avoid large or daily amounts of grapefruit or its juice.","24,5":"Avoid large or daily amounts of grapefruit or its juice.","24,6":"Avoid grapefruit and its juice.","24,7":"Avoid large amounts (more than a small glass a day).","24,12":"On amiodarone: avoid grapefruit and its juice.","24,19":"Take the bone tablet with plain water only, and wait before breakfast and drinks as its label says.","25,0":"Avoid concentrated supplements unless your doctor agrees.","25,3":"Avoid concentrated extracts on blood thinners.","25,6":"Avoid high-dose extracts on a statin.","25,7":"Avoid high-dose extracts on a statin.","25,8":"Avoid high-dose extracts on a statin.","25,11":"Avoid concentrated extracts; stick to decaffeinated or occasional brewed tea.","25,12":"Avoid concentrated extracts; stick to decaffeinated or occasional brewed tea.","25,13":"Avoid concentrated extracts; stick to decaffeinated or occasional brewed tea.","25,14":"Avoid concentrated extracts; stick to decaffeinated or occasional brewed tea.","25,17":"Avoid caffeinated green tea or extracts after lunchtime.","25,19":"Take your bone tablet with plain water only and wait before drinking tea or taking supplements.","26,0":"Ask first; check your blood pressure if you take it.","26,1":"Ask first; check your blood pressure if you take it.","26,2":"Ask first; check your blood pressure if you take it.","26,3":"Ask first.","26,4":"Ask first.","26,5":"Ask first.","26,11":"Don't take with digoxin or other heart rhythm medicines unless your doctor agrees.","26,12":"Don't take with amiodarone unless your doctor agrees.","26,13":"Ask your doctor before using it with heart medicines.","26,14":"Ask your doctor before using it with heart medicines.","28,0":"Avoid regular tablets; paracetamol is the safer painkiller.","28,1":"Avoid regular tablets; paracetamol is the safer painkiller.","28,2":"Avoid regular tablets; paracetamol is the safer painkiller.","28,3":"Avoid. Use paracetamol for pain instead, and ask your pharmacist before any anti-inflammatory, including gels in large amounts.","28,4":"Avoid. Use paracetamol for pain instead, and ask your pharmacist before any anti-inflammatory, including gels in large amounts.","28,5":"Avoid. Use paracetamol for pain instead, and ask your pharmacist before any anti-inflammatory, including gels in large amounts.","28,9":"Short courses only, with enough fluids.","28,10":"Short courses only, with enough fluids.","28,11":"Avoid. Use paracetamol instead and ask your pharmacist before any anti-inflammatory.","28,12":"Prefer paracetamol; ask your pharmacist before any anti-inflammatory.","28,13":"Avoid. Use paracetamol instead and ask your pharmacist before any anti-inflammatory.","28,14":"Avoid. Use paracetamol instead and ask your pharmacist before any anti-inflammatory.","28,16":"Prefer paracetamol. If you need an anti-inflammatory, ask your pharmacist (a stomach-protecting tablet may be advised).","28,19":"Prefer paracetamol. Ask your pharmacist before regular anti-inflammatory use.","29,15":"Keep iron at least 4 hours apart from levothyroxine.","29,18":"Take iron with food or vitamin C; tell your doctor if you feel tired or your iron tests are low.","29,19":"Take iron at a different time of day from your bone tablet.","30,0":"Avoid licorice root supplements and regular real licorice sweets or tea.","30,1":"Avoid licorice root supplements and regular real licorice sweets or tea.","30,2":"Avoid licorice root supplements and regular real licorice sweets or tea.","30,3":"Avoid licorice root supplements and large amounts of real licorice on warfarin unless your clinic agrees.","30,11":"Avoid licorice root supplements and regular real licorice.","30,12":"Avoid licorice root supplements and regular real licorice.","30,13":"Avoid licorice root supplements and regular real licorice.","30,14":"Avoid licorice root supplements and regular real licorice.","30,16":"Avoid licorice root supplements and regular real licorice on citalopram.","31,12":"Never exceed the label dose.","32,15":"Keep magnesium at least 4 hours apart from levothyroxine.","32,19":"Take magnesium at a different time of day from your bone tablet.","33,2":"Ask first; check your blood pressure if you start it.","33,3":"Ask your clinic first and check your INR if you start or stop it.","33,9":"Take it at bedtime rather than with a meal; check your blood sugar if you start it.","33,10":"Take it at bedtime rather than with a meal; check your blood sugar if you start it.","33,16":"Ask your pharmacist first; avoid combining with fluvoxamine.","33,17":"Ask your doctor before combining; avoid if you're older, unsteady on your feet, or also drink alcohol or take other sedatives.","34,9":"Ask first; check your blood sugar more often if you take it.","34,10":"Ask first; check your blood sugar more often if you take it.","35,0":"Ask before high-dose niacin; stand up slowly.","35,1":"Ask before high-dose niacin; stand up slowly.","35,2":"Ask before high-dose niacin; stand up slowly.","35,6":"Don't take high-dose niacin with a statin unless prescribed.","35,7":"Don't take high-dose niacin with a statin unless prescribed.","35,8":"Don't take high-dose niacin with a statin unless prescribed.","35,9":"Ask before high-dose niacin; check your blood sugar.","35,10":"Ask before high-dose niacin; check your blood sugar.","37,5":"Avoid OTC omeprazole and esomeprazole.","37,11":"Short courses are fine; tell your doctor if you take digoxin or need acid tablets regularly.","37,12":"Short courses are fine; tell your doctor if you need acid tablets regularly.","37,13":"Short courses are fine; tell your doctor if you need acid tablets regularly.","37,15":"Short courses are fine; if you start regular PPIs, your doctor may recheck your thyroid blood test.","37,16":"On citalopram: ask your pharmacist before taking OTC omeprazole or esomeprazole.","37,18":"Do not take OTC omeprazole or esomeprazole on top of a prescribed PPI\u2014tell your doctor if reflux breaks through.","38,3":"Fine for occasional use.","39,0":"Avoid potassium supplements and potassium salt substitutes unless prescribed with blood tests.","39,14":"On spironolactone: never take potassium supplements or salt substitutes unless prescribed with blood tests.","40,11":"On digoxin: take psyllium/ispaghula at least 2 hours apart from your digoxin tablet.","40,15":"Keep psyllium/ispaghula at least 4 hours apart from levothyroxine.","40,19":"Take your bone tablet first thing with plain water only, and wait at least 30 minutes to 2 hours before fibre supplements.","41,3":"Ask before using on warfarin.","41,6":"Don't combine with a prescribed statin.","41,7":"Don't combine with a prescribed statin.","41,8":"Don't combine with a prescribed statin.","41,12":"Avoid on amiodarone unless your doctor agrees.","42,16":"Don't combine with an SSRI unless your doctor agrees.","43,12":"Avoid on amiodarone or if you have a rhythm problem.","43,16":"Prefer a non-sedating antihistamine (loratadine, cetirizine).","43,17":"Don't combine with a prescribed sleep tablet.","44,2":"Avoid, or ask your doctor first and check your blood pressure if you take it.","44,3":"Avoid. If you already take it, don't stop it suddenly yourself: the INR can rise sharply when it stops.","44,4":"Avoid. If you already take it, speak to your doctor or pharmacist before stopping either.","44,5":"Avoid unless your doctor agrees.","44,6":"Avoid, or ask your doctor to check your cholesterol if you take it.","44,7":"Avoid, or ask your doctor to check your cholesterol if you take it.","44,10":"Avoid, or check your blood sugar more often and tell your doctor.","44,11":"Avoid. If you already take it, don't stop suddenly on your own: talk to your doctor, as levels change when it stops.","44,12":"Avoid. If you already take it, don't stop suddenly on your own: talk to your doctor, as levels change when it stops.","44,15":"Avoid, or ask your doctor to recheck your thyroid blood test if you take it.","44,16":"Never combine. If you take it, speak to your doctor before stopping or starting either.","44,17":"Avoid, or ask your doctor first.","44,18":"Avoid, or tell your doctor if your symptoms return.","46,0":"Short-term use is fine.","46,1":"Short-term use is fine.","46,3":"Short-term use is fine.","46,9":"Short-term use is fine.","46,10":"Short-term use is fine.","46,11":"Short-term use only. Ask before regular use; tell your doctor if you need laxatives often.","46,12":"Short-term use only. Ask before regular use; tell your doctor if you need laxatives often.","46,13":"Short-term use only. Ask before regular use; tell your doctor if you need laxatives often.","47,16":"Never combine with an SSRI unless your doctor advises it.","47,17":"Ask first; don't combine at bedtime.","48,3":"Avoid concentrated supplements unless your doctor agrees.","48,4":"Avoid concentrated supplements unless your doctor agrees.","48,5":"Avoid concentrated supplements unless your doctor agrees.","49,16":"Ask first; don't drive until you know how it affects you.","49,17":"Don't combine with a prescribed sleep tablet.","52,3":"Avoid high-dose vitamin E supplements unless your doctor agrees.","52,4":"Avoid high-dose vitamin E supplements unless your doctor agrees.","52,5":"Avoid high-dose vitamin E supplements unless your doctor agrees.","53,3":"Avoid vitamin K supplements and keep vitamin K in food steady (don't suddenly change how much green leafy veg you eat).","54,15":"Keep zinc supplements (including cold lozenges) at least 4 hours apart from levothyroxine.","54,19":"Take zinc at a different time of day, at least 30 minutes to 2 hours after your bone tablet."}};
+const NG=D.g.length;
+const state={meds:[2,4,7],prod:null};
+let saved=null;try{saved=JSON.parse(localStorage.getItem('tlc')||'null')}catch(e){}
+const isExample=!saved;
+if(saved){state.meds=saved.meds||[];state.prod=saved.prod??null}
+else{state.prod=D.p.findIndex(p=>p[0].startsWith('Ibuprofen'))}
+const save=()=>{try{localStorage.setItem('tlc',JSON.stringify(state))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $=id=>document.getElementById(id);
+const rank={R:3,A:2,G:1};
+const word={R:'RED',A:'AMBER',G:'GREEN'};
+const head={R:'Stop and check',A:'Slow down: ask first',G:'Go: no clash expected'};
+const sub={R:'This combination carries a real risk. Don’t start it, and speak to your doctor or pharmacist.',A:'These can affect each other. It may be fine with the right dose or timing, but ask first.',G:'No meaningful interaction is expected at usual doses with the medicines you ticked.'};
+const greenLine='No meaningful interaction expected at usual doses.';
+function renderMeds(){
+  const q=$('medq').value.trim().toLowerCase();
+  let html='',cat='';
+  D.g.forEach((g,i)=>{
+    const hay=(g[0]+' '+g[1]+' '+g[2]).toLowerCase();
+    if(q&&!hay.includes(q))return;
+    if(g[1]!==cat){cat=g[1];html+=`<div class="cat">${esc(cat)}</div>`}
+    const on=state.meds.includes(i);
+    html+=`<label class="med${on?' on':''}"><input type="checkbox" data-i="${i}"${on?' checked':''}><span>${esc(g[0])}<small>${esc(g[2])}</small></span></label>`;
+  });
+  $('meds').innerHTML=html||'<p class="hint">No match. This medicine may not be in the checker: ask your pharmacist.</p>';
+  $('picked').innerHTML=state.meds.map(i=>`<button class="chip" data-x="${i}" aria-label="Remove ${esc(D.g[i][0])}">${esc(D.g[i][0])} ×</button>`).join('');
+}
+function renderProds(){
+  const q=$('prodq').value.trim().toLowerCase();
+  const list=D.p.map((p,i)=>[p,i]).filter(([p])=>!q||p[0].toLowerCase().includes(q));
+  $('prods').innerHTML=list.map(([p,i])=>`<button class="prod${state.prod===i?' on':''}" data-p="${i}">${esc(p[0])}</button>`).join('')||'<p class="hint">No match. Ask your pharmacist about this product.</p>';
+}
+function renderResult(){
+  const L=$('label');
+  ['lr','la','lg'].forEach(id=>$(id).classList.remove('lit'));
+  if(!state.meds.length||state.prod===null){
+    L.innerHTML=`<div class="verdict N"><h2>Your answer appears here</h2><p>${!state.meds.length?'Tick at least one prescription medicine.':'Choose the product you want to take.'}</p></div>`;
+    $('ex').textContent='';return;
+  }
+  const p=state.prod;
+  const rows=state.meds.map(g=>{const c=D.m[p*NG+g];return{g,c,t:c==='G'?greenLine:(D.l[p+','+g]||'')}}).sort((a,b)=>rank[b.c]-rank[a.c]);
+  const worst=rows[0].c;
+  $({R:'lr',A:'la',G:'lg'}[worst]).classList.add('lit');
+  L.innerHTML=`<div class="verdict ${worst}"><h2>${word[worst]}: ${head[worst]}</h2><p>${esc(D.p[p][0])} ${sub[worst].charAt(0).toLowerCase()==='t'?'':''}— ${sub[worst]}</p></div>
+  <div class="rows">${rows.map(r=>`<div class="row"><div class="dot ${r.c}"></div><div><b>${esc(D.g[r.g][0])}<span class="tag ${r.c}">${word[r.c]}</span></b><span>${esc(r.t)}</span></div></div>`).join('')}</div>
+  <div class="more"><span>Full advice: ${esc(D.p[p][1])} in <i>The Traffic Light Medicine Cabinet</i></span><span class="btn">Book coming soon on Amazon</span></div>`;
+  $('ex').textContent=isExample&&!touched?'Example shown: a blood pressure tablet, a blood thinner and a statin, with ibuprofen. Change it to your own medicines.':'Remember: if you take a medicine that isn’t listed here, ask your pharmacist.';
+}
+let touched=false;
+function all(){renderMeds();renderProds();renderResult()}
+$('medq').addEventListener('input',renderMeds);
+$('prodq').addEventListener('input',renderProds);
+$('meds').addEventListener('change',e=>{const i=+e.target.dataset.i;if(Number.isNaN(i))return;touched=true;state.meds=e.target.checked?[...state.meds,i]:state.meds.filter(x=>x!==i);save();renderMeds();renderResult()});
+$('picked').addEventListener('click',e=>{const b=e.target.closest('[data-x]');if(!b)return;touched=true;state.meds=state.meds.filter(x=>x!==+b.dataset.x);save();renderMeds();renderResult()});
+$('prods').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;touched=true;state.prod=+b.dataset.p;save();renderProds();renderResult();if(window.innerWidth<820)document.querySelector('.result').scrollIntoView({behavior:'smooth',block:'start'})});
+all();
+}
+</script>
+</body>
+</html>
