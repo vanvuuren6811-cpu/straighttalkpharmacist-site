@@ -2,7 +2,7 @@ import re
 head=open('src/head.html').read()
 body=open('src/body.html').read()
 data=open('src/data.json').read().strip()
-STP='https://www.youtube.com/results?search_query=Straight+Talk+Pharmacist'
+STP='https://www.youtube.com/@StraightTalkPharmacist'
 VC='https://www.youtube.com/@VitalCode6811'
 BOOK=''  # Amazon link goes here when the book is live
 meta='''<title>Straight Talk Pharmacist | Free Traffic Light Medicine Checker</title>
