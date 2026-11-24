@@ -38,13 +38,25 @@ nav.site a:hover{border-color:var(--grn)}
 .about{max-width:70ch}
 @media (max-width:700px){.book{grid-template-columns:1fr}.book img{max-width:220px}}
 '''
-head=head.replace('</style>',css+'</style>')
+head=head.replace('family=Atkinson+Hyperlegible:','family=Fira+Sans:wght@700;800;900&family=Atkinson+Hyperlegible:')
+head=head.replace('</style>',css+open('src/theme.css').read()+'</style>')
 body=body.replace('<header class="band"><div class="wrap brand"><b>Straight Talk Pharmacist</b><span>Free medicine mix checker</span></div></header>',
 '<header class="band"><div class="wrap brand"><b>Straight Talk Pharmacist</b><nav class="site" aria-label="Main"><a href="#checker">Checker</a><a href="#book">The book</a><a href="#videos">Videos</a><a href="#about">About</a></nav></div></header>')
-body=body.replace('<main class="band"><div class="wrap">','<main><section class="band" id="checker"><div class="wrap">',1)
+hero='''<main><section class="hero"><div class="wrap">
+<div>
+<div class="lamps" aria-hidden="true"><i></i><i></i><i></i></div>
+<p class="kicker">From the pharmacy counter</p>
+<h1><span class="w">Can</span> <span class="w">I</span> <span class="w">take</span> <span class="w">this</span> <span class="w">with</span> <span class="w">my</span> <span class="w">medicines?</span></h1>
+<p class="lead">Check 1,100 everyday medicine mixes in seconds. Pharmacist Leon Van Vuuren rates each one GREEN, AMBER or RED, in plain language.</p>
+<div class="actions"><a class="cta" href="#checker">Check my medicines</a><a class="cta ghost" href="sample.pdf" target="_blank" rel="noopener">Read a free sample</a></div>
+</div>
+<div class="shelfbox"><img src="shelf.jpg" width="1100" height="843" alt="A wooden medicine shelf glowing red, amber and green"><div class="glow r"></div><div class="glow a"></div><div class="glow g"></div><div class="shine"></div></div>
+</div></section>'''
+body=body.replace('<main class="band"><div class="wrap">',hero+'<section class="band sec" id="checker"><div class="wrap">',1)
+body=body.replace('<h1>Can I take this with my medicines?</h1>','<h2>The free Traffic Light Checker</h2>',1)
 extra=f'''</div></section>
 <section class="band sec" id="book"><div class="wrap book">
-<img src="book-cover.jpg" width="600" height="960" alt="Cover of The Traffic Light Medicine Cabinet by Leon Van Vuuren" loading="lazy">
+<img class="reveal" src="book-cover.jpg" width="600" height="960" alt="Cover of The Traffic Light Medicine Cabinet by Leon Van Vuuren" loading="lazy">
 <div>
 <h2>The Traffic Light Medicine Cabinet</h2>
 <p class="lead">A pharmacist's plain-language guide to safely mixing supplements, herbs and over-the-counter medicines with your prescriptions.</p>
@@ -54,18 +66,18 @@ extra=f'''</div></section>
 <li>A 30-minute medicine cabinet check, with worksheets</li>
 <li>What to say to your doctor and pharmacist</li>
 </ul>
-{{BOOKBTN}}
+<div class="actions">{{BOOKBTN}}</div>
 </div>
 </div></section>
 <section class="band sec" id="videos"><div class="wrap">
 <h2>Watch on YouTube</h2>
 <p class="lead">Short, plain-English videos from a working pharmacist.</p>
-<div class="cards">
+<div class="cards reveal">
 <div class="card"><h3>Straight Talk Pharmacist</h3><p>Medicine mixes, side effects and the questions people ask at the pharmacy counter.</p><a href="{STP}">Visit the channel →</a></div>
 <div class="card"><h3>Vital Code</h3><p>Health explained simply: how your body and your medicines work.</p><a href="{VC}">Visit the channel →</a></div>
 </div>
 </div></section>
-<section class="band sec" id="about"><div class="wrap"><div class="about">
+<section class="band sec" id="about"><div class="wrap"><div class="about reveal">
 <h2>About Leon</h2>
 <p>Leon Van Vuuren is a South African pharmacist. For years, the question he heard most across the counter was "Can I take this with my tablets?" This checker and his books give you clear, calm answers, so you can talk to your own doctor and pharmacist with confidence.</p>
 <p class="hint">Privacy: this site uses no tracking and no sign-up. Your ticked medicines are saved only in your own browser.</p>
@@ -79,6 +91,14 @@ body=body.replace('</div></main>',extra,1)
 body=body.replace(STP.replace('&','&amp;'),STP)
 import re as _re
 body=_re.sub(r'<a href="(https?://[^"]+)"', r'<a href="\1" target="_blank" rel="noopener"', body)
+body=body.replace('<section class="top">','<section class="top reveal">',1).replace('<div class="grid">','<div class="grid reveal">',1)
+js='''<script>
+document.querySelectorAll('.hero h1 .w').forEach((w,i)=>w.style.animationDelay=(0.08*i+0.1)+'s');
+const io=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12}):null;
+document.querySelectorAll('.reveal').forEach(el=>io?io.observe(el):el.classList.add('in'));
+const hd=document.querySelector('header.band');addEventListener('scroll',()=>hd.classList.toggle('scrolled',scrollY>8),{passive:true});
+</script>'''
+body=body.replace('</body>',js+'</body>')
 html=head+body.replace('__DATA__',data)
 open('index.html','w').write(html)
 print(len(html))
