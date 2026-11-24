@@ -1,0 +1,117 @@
+<body>
+<header class="band"><div class="wrap brand"><b>Straight Talk Pharmacist</b><span>Free medicine mix checker</span></div></header>
+<main class="band"><div class="wrap">
+<section class="top">
+<h1>Can I take this with my medicines?</h1>
+<p>Tick the prescription medicines you take, then choose the product you want to use. The light shows the strictest colour across all your medicines.</p>
+</section>
+<div class="grid">
+<div>
+<section class="panel">
+<p class="step">1. Your prescription medicines</p>
+<p class="hint">Find the name on your box or pharmacy label. Tick all that apply.</p>
+<input type="search" id="medq" placeholder="Search, e.g. amlodipine" aria-label="Search your medicines">
+<div class="meds" id="meds"></div>
+<div class="chips" id="picked"></div>
+</section>
+<section class="panel">
+<p class="step">2. The product you want to take</p>
+<p class="hint">Painkillers, cold remedies, vitamins, herbs, supplements, foods and drinks.</p>
+<input type="search" id="prodq" placeholder="Search, e.g. turmeric" aria-label="Search products">
+<div class="prods" id="prods"></div>
+</section>
+</div>
+<aside class="result" aria-live="polite">
+<div class="light" aria-hidden="true"><div class="lamp r" id="lr"></div><div class="lamp a" id="la"></div><div class="lamp g" id="lg"></div></div>
+<div>
+<div class="label" id="label"></div>
+<p class="note" id="ex"></p>
+</div>
+</aside>
+</div>
+</div></main>
+<footer class="band"><div class="wrap cols">
+<div>
+<h3>Important</h3>
+<p>This checker is general information, not medical advice. It covers 20 common prescription groups and 55 everyday products at usual doses, and can't take account of your kidneys, liver, other conditions or exact doses. <b style="color:#fff">Never stop a prescribed medicine because of a colour here.</b> Ask your doctor or pharmacist.</p>
+</div>
+<div class="nums">
+<h3>Emergency numbers</h3>
+<ul>
+<li>South Africa: ambulance <b>10177</b>, cell phone <b>112</b>, Poison Information Helpline <b>0861 555 777</b></li>
+<li>United States: <b>911</b>, Poison Control <b>1-800-222-1222</b></li>
+<li>United Kingdom: <b>999</b>, NHS <b>111</b></li>
+</ul>
+</div>
+<div>
+<h3>From the pharmacist</h3>
+<p>Ratings come from <i>The Traffic Light Medicine Cabinet</i> by pharmacist Leon Van Vuuren.</p>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Straight+Talk+Pharmacist">Straight Talk Pharmacist on YouTube</a></li>
+<li><a href="https://www.youtube.com/@VitalCode6811">Vital Code on YouTube</a></li>
+</ul>
+</div>
+</div></footer>
+<script>
+{
+const D=__DATA__;
+const NG=D.g.length;
+const state={meds:[2,4,7],prod:null};
+let saved=null;try{saved=JSON.parse(localStorage.getItem('tlc')||'null')}catch(e){}
+const isExample=!saved;
+if(saved){state.meds=saved.meds||[];state.prod=saved.prod??null}
+else{state.prod=D.p.findIndex(p=>p[0].startsWith('Ibuprofen'))}
+const save=()=>{try{localStorage.setItem('tlc',JSON.stringify(state))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $=id=>document.getElementById(id);
+const rank={R:3,A:2,G:1};
+const word={R:'RED',A:'AMBER',G:'GREEN'};
+const head={R:'Stop and check',A:'Slow down: ask first',G:'Go: no clash expected'};
+const sub={R:'This combination carries a real risk. Don’t start it, and speak to your doctor or pharmacist.',A:'These can affect each other. It may be fine with the right dose or timing, but ask first.',G:'No meaningful interaction is expected at usual doses with the medicines you ticked.'};
+const greenLine='No meaningful interaction expected at usual doses.';
+function renderMeds(){
+  const q=$('medq').value.trim().toLowerCase();
+  let html='',cat='';
+  D.g.forEach((g,i)=>{
+    const hay=(g[0]+' '+g[1]+' '+g[2]).toLowerCase();
+    if(q&&!hay.includes(q))return;
+    if(g[1]!==cat){cat=g[1];html+=`<div class="cat">${esc(cat)}</div>`}
+    const on=state.meds.includes(i);
+    html+=`<label class="med${on?' on':''}"><input type="checkbox" data-i="${i}"${on?' checked':''}><span>${esc(g[0])}<small>${esc(g[2])}</small></span></label>`;
+  });
+  $('meds').innerHTML=html||'<p class="hint">No match. This medicine may not be in the checker: ask your pharmacist.</p>';
+  $('picked').innerHTML=state.meds.map(i=>`<button class="chip" data-x="${i}" aria-label="Remove ${esc(D.g[i][0])}">${esc(D.g[i][0])} ×</button>`).join('');
+}
+function renderProds(){
+  const q=$('prodq').value.trim().toLowerCase();
+  const list=D.p.map((p,i)=>[p,i]).filter(([p])=>!q||p[0].toLowerCase().includes(q));
+  $('prods').innerHTML=list.map(([p,i])=>`<button class="prod${state.prod===i?' on':''}" data-p="${i}">${esc(p[0])}</button>`).join('')||'<p class="hint">No match. Ask your pharmacist about this product.</p>';
+}
+function renderResult(){
+  const L=$('label');
+  ['lr','la','lg'].forEach(id=>$(id).classList.remove('lit'));
+  if(!state.meds.length||state.prod===null){
+    L.innerHTML=`<div class="verdict N"><h2>Your answer appears here</h2><p>${!state.meds.length?'Tick at least one prescription medicine.':'Choose the product you want to take.'}</p></div>`;
+    $('ex').textContent='';return;
+  }
+  const p=state.prod;
+  const rows=state.meds.map(g=>{const c=D.m[p*NG+g];return{g,c,t:c==='G'?greenLine:(D.l[p+','+g]||'')}}).sort((a,b)=>rank[b.c]-rank[a.c]);
+  const worst=rows[0].c;
+  $({R:'lr',A:'la',G:'lg'}[worst]).classList.add('lit');
+  L.innerHTML=`<div class="verdict ${worst}"><h2>${word[worst]}: ${head[worst]}</h2><p>${esc(D.p[p][0])} ${sub[worst].charAt(0).toLowerCase()==='t'?'':''}— ${sub[worst]}</p></div>
+  <div class="rows">${rows.map(r=>`<div class="row"><div class="dot ${r.c}"></div><div><b>${esc(D.g[r.g][0])}<span class="tag ${r.c}">${word[r.c]}</span></b><span>${esc(r.t)}</span></div></div>`).join('')}</div>
+  <div class="more"><span>Full advice: ${esc(D.p[p][1])} in <i>The Traffic Light Medicine Cabinet</i></span><span class="btn">Book coming soon on Amazon</span></div>`;
+  $('ex').textContent=isExample&&!touched?'Example shown: a blood pressure tablet, a blood thinner and a statin, with ibuprofen. Change it to your own medicines.':'Remember: if you take a medicine that isn’t listed here, ask your pharmacist.';
+}
+let touched=false;
+function all(){renderMeds();renderProds();renderResult()}
+$('medq').addEventListener('input',renderMeds);
+$('prodq').addEventListener('input',renderProds);
+$('meds').addEventListener('change',e=>{const i=+e.target.dataset.i;if(Number.isNaN(i))return;touched=true;state.meds=e.target.checked?[...state.meds,i]:state.meds.filter(x=>x!==i);save();renderMeds();renderResult()});
+$('picked').addEventListener('click',e=>{const b=e.target.closest('[data-x]');if(!b)return;touched=true;state.meds=state.meds.filter(x=>x!==+b.dataset.x);save();renderMeds();renderResult()});
+$('prods').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;touched=true;state.prod=+b.dataset.p;save();renderProds();renderResult();if(window.innerWidth<820)document.querySelector('.result').scrollIntoView({behavior:'smooth',block:'start'})});
+all();
+}
+</script>
+</body>
+</html>

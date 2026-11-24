@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Traffic Light Checker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Atkinson+Hyperlegible+Next:wght@500;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday health tool for older readers: calm, clear, large
+   IDEA a pharmacy counter traffic light plus a dispensing label
+   PICTURE a real three-lamp traffic light that lights the strictest colour, with the answer on a label beside it
+   COLOUR white counter, charcoal housing, signal red, amber and green as the only strong colours
+   TYPE Atkinson Hyperlegible Next for headings, Atkinson Hyperlegible for text
+   LAYOUT laptop: controls left, light and label right; phone: title, light and answer, then controls */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#121416);--ink:light-dark(#16191c,#eef1f3);--soft:light-dark(#5a6168,#a6aeb5);--line:light-dark(#d9dee2,#2e3439);--panel:light-dark(#f4f6f7,#1b1f22);--house:#1f2326;--red:#d7261e;--amb:#f0a500;--grn:#1f9d55;--redt:light-dark(#fde8e6,#3a1714);--ambt:light-dark(#fff3d6,#3a2c0c);--grnt:light-dark(#e3f5ea,#10301e)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.55 "Atkinson Hyperlegible",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,sans-serif;letter-spacing:-.02em;line-height:1.08;margin:0}
+.band{padding:clamp(20px,3vw,40px) max(4vw,16px)}
+.wrap{max-width:1180px;margin:0 auto}
+header.band{border-bottom:1px solid var(--line);padding-block:18px}
+.brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.brand b{font-family:"Atkinson Hyperlegible Next",sans-serif;font-weight:800;font-size:18px}
+.brand span{color:var(--soft);font-size:15px}
+.top h1{font-size:clamp(32px,4.4vw,48px);font-weight:800;text-wrap:balance;max-width:20ch}
+.top p{color:var(--soft);margin:10px 0 0;max-width:62ch}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);margin-top:24px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.step{font-weight:700;font-size:19px;margin:0 0 4px;font-family:"Atkinson Hyperlegible Next",sans-serif}
+.hint{color:var(--soft);font-size:15px;margin:0 0 12px}
+input[type=search]{width:100%;font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);min-height:48px}
+input[type=search]:focus,button:focus-visible,label:focus-within{outline:3px solid #2b6cb0;outline-offset:2px}
+.meds{display:grid;gap:4px;max-height:360px;overflow:auto;margin-top:10px;padding-right:4px}
+.cat{font-size:14px;font-weight:700;color:var(--soft);margin:10px 0 2px}
+.med{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:10px;cursor:pointer;border:2px solid transparent;background:var(--bg)}
+.med input{width:22px;height:22px;margin:2px 0 0;accent-color:#16191c;flex:none}
+.med small{display:block;color:var(--soft);font-size:14px}
+.med.on{border-color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:15px;cursor:pointer;min-height:36px}
+.prods{display:grid;gap:4px;max-height:300px;overflow:auto;margin-top:10px}
+.prod{text-align:left;font:inherit;font-size:16px;padding:11px 12px;border-radius:10px;border:2px solid transparent;background:var(--bg);color:var(--ink);cursor:pointer;min-height:46px}
+.prod.on{border-color:var(--ink);font-weight:700}
+.prod:hover,.med:hover{border-color:var(--line)}
+.panel+.panel{margin-top:16px}
+.result{position:sticky;top:16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:start}
+.light{background:var(--house);border-radius:28px;padding:16px 14px;display:grid;gap:12px;box-shadow:inset 0 -6px 0 #14171a, 0 10px 0 -4px color-mix(in srgb,var(--house) 30%,transparent)}
+.lamp{width:clamp(64px,8vw,92px);aspect-ratio:1;border-radius:50%;background:#2c3236;box-shadow:inset 0 6px 10px #0006;transition:background .35s,box-shadow .35s}
+.lamp.r.lit{background:radial-gradient(circle at 40% 35%,#ff8a80,var(--red) 60%);box-shadow:0 0 28px var(--red)}
+.lamp.a.lit{background:radial-gradient(circle at 40% 35%,#ffe08a,var(--amb) 60%);box-shadow:0 0 28px var(--amb)}
+.lamp.g.lit{background:radial-gradient(circle at 40% 35%,#8be0ad,var(--grn) 60%);box-shadow:0 0 28px var(--grn)}
+.label{border:2px solid var(--ink);border-radius:12px;overflow:hidden;background:var(--bg)}
+.verdict{padding:16px 18px;color:#fff}
+.verdict.R{background:var(--red)}.verdict.A{background:var(--amb);color:#16191c}.verdict.G{background:var(--grn)}.verdict.N{background:var(--panel);color:var(--ink)}
+.verdict h2{font-size:clamp(30px,3.6vw,40px);font-weight:800}
+.verdict p{margin:6px 0 0;font-size:17px}
+.rows{padding:6px 18px 14px}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.dot{width:16px;height:16px;border-radius:50%;margin-top:4px}
+.dot.R{background:var(--red)}.dot.A{background:var(--amb)}.dot.G{background:var(--grn)}
+.row b{display:block}
+.row span{color:var(--soft);font-size:15.5px}
+.tag{font-size:13px;font-weight:700;padding:1px 8px;border-radius:999px;margin-left:6px;white-space:nowrap}
+.tag.R{background:var(--redt);color:light-dark(#9b1610,#ff9a92)}.tag.A{background:var(--ambt);color:light-dark(#7a5300,#ffd27a)}.tag.G{background:var(--grnt);color:light-dark(#11663a,#86e0aa)}
+.more{padding:14px 18px;border-top:2px solid var(--ink);display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;font-size:15.5px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border-radius:10px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:700}
+.note{font-size:14px;color:var(--soft);margin:10px 0 0}
+footer.band{background:var(--house);color:#e9edf0;margin-top:40px}
+footer h3{font-size:22px;margin-bottom:10px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(15em,1fr));gap:24px}
+footer a{color:#fff}
+footer p,footer li{font-size:15.5px;color:#c7cdd2}
+footer ul{padding-left:18px;margin:6px 0}
+.nums b{color:#fff;white-space:nowrap}
+@media(max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}.result{position:static;order:-1}}
+@media(max-width:480px){.result{grid-template-columns:minmax(0,1fr)}.light{grid-auto-flow:column;justify-content:center;border-radius:999px;padding:10px 16px}.lamp{width:52px}}
+@media(prefers-reduced-motion:reduce){.lamp{transition:none}}
+</style>
+</head>
