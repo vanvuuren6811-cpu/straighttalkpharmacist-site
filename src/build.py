@@ -88,7 +88,7 @@ extra=extra.replace('{BOOKBTN}',BOOKBTN+' <a class="cta sample" href="sample.pdf
 if BOOK:
     body=body.replace('<span class="btn">Book coming soon on Amazon</span>',f'<a class="btn" href="{BOOK}" target="_blank" rel="noopener">Get the book on Amazon</a>')
 body=body.replace('</div></main>',extra,1)
-body=body.replace(STP.replace('&','&amp;'),STP)
+body=body.replace('https://www.youtube.com/results?search_query=Straight+Talk+Pharmacist',STP)
 import re as _re
 body=_re.sub(r'<a href="(https?://[^"]+)"', r'<a href="\1" target="_blank" rel="noopener"', body)
 body=body.replace('<section class="top">','<section class="top reveal">',1).replace('<div class="grid">','<div class="grid reveal">',1)
