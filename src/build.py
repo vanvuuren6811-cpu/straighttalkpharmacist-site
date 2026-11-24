@@ -28,6 +28,8 @@ nav.site a:hover{border-color:var(--grn)}
 .book li{margin:4px 0}
 .cta{display:inline-block;background:var(--grn);color:#fff;font-weight:700;text-decoration:none;padding:12px 20px;border-radius:10px}
 .cta.soon{background:var(--house)}
+.cta.sample{background:transparent;color:var(--ink);border:2px solid var(--grn);margin-left:8px}
+.cta.sample:hover{background:var(--grnt)}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
 .card h3{font-size:22px;margin-bottom:6px}
@@ -70,7 +72,7 @@ extra=f'''</div></section>
 </div></div></section>
 </main>'''
 BOOKBTN=(f'<a class="cta" href="{BOOK}" target="_blank" rel="noopener">Get it on Amazon</a>' if BOOK else '<span class="cta soon">Coming soon on Amazon</span>')
-extra=extra.replace('{BOOKBTN}',BOOKBTN)
+extra=extra.replace('{BOOKBTN}',BOOKBTN+' <a class="cta sample" href="sample.pdf" target="_blank" rel="noopener">Read a free sample</a>')
 if BOOK:
     body=body.replace('<span class="btn">Book coming soon on Amazon</span>',f'<a class="btn" href="{BOOK}" target="_blank" rel="noopener">Get the book on Amazon</a>')
 body=body.replace('</div></main>',extra,1)
